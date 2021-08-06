@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta Dias</title>
+    <style>
+        body {background-color: #33cc33;
+              text-align: center;
+              color: honeydew;
+              font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;}
+
+        input, button{
+             width: 20%;
+             font-size: 38px;
+        }
+
+        p {
+            font-size: 130px;
+        }
+    </style>
+
+</head>
+<body>
+
+    <h1>CALCULAR DÍAS</h1>
+    <hr>
+    <input type="string" id="myDate" value="">    
+    <button onclick="calcular()">Calculo</button>
+    <hr>
+    <p id="imprimir"></p>
+    
+    <script>
+    function calcular() {
+        var fechaAct = document.getElementById("myDate").value;
+
+        var comp1 = fechaAct.match(/\b[a-zA-Z]+\b/ig);
+
+        if(comp1!=null && fechaAct.includes('/')){
+
+            var fecha1=fechaAct.split('/');
+
+            if(fecha1[1].toUpperCase().includes('ENE')){
+
+                fechaAct=fecha1[0].concat('/JAN/',fecha1[2]);
+
+            }else if(fecha1[1].toUpperCase().includes('ABR')){
+
+                fechaAct=fecha1[0].concat('/APR/',fecha1[2]);
+
+            }else if(fecha1[1].toUpperCase().includes('AGO')){
+
+                fechaAct=fecha1[0].concat('/AUG/',fecha1[2]);
+
+            }else if(fecha1[1].toUpperCase().includes('DIC')){
+
+                fechaAct=fecha1[0].concat('/DEC/',fecha1[2]);
+            };
+
+        }else if(fechaAct.includes('/') && !fechaAct.includes('-') && comp1==null){
+
+            var fecha1=fechaAct.split('/');
+
+            fechaAct=fecha1[1].concat('/',fecha1[0],'/',fecha1[2])
+
+        }else if(fechaAct.includes('-') && !fechaAct.includes('/') && comp1==null){
+
+            var fecha1=fechaAct.split('-');
+
+            fechaAct=fecha1[0].concat('/',fecha1[1],'/',fecha1[2])
+        };
+
+
+        var fechaFin = new Date(fechaAct).getTime();
+        var fecha = new Date();
+        var ano = fecha.getFullYear();
+        var fechaInicio    = new Date(ano+'-01-01').getTime();
+        var diff = fechaFin - fechaInicio;
+        var calculo = diff/84600000;
+        document.getElementById("imprimir").innerHTML = Math.trunc(calculo);
+
+    }
+
+    </script>
+    
+    </body>
+</body>
+</html>
